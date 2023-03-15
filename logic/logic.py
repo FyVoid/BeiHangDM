@@ -26,5 +26,3 @@ def dualformula(s: str) -> str:
     ret_s = ret_s.replace('F', '1')
     return ret_s
 
-
-print(logic_eval('(1 @ 0) -> 1'))
