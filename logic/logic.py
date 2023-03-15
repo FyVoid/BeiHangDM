@@ -1,6 +1,23 @@
 import re
 
+def Encode2DiscreteMath(expr: str) -> str:
+    expr = expr.replace('~', '┐')
+    expr = expr.replace('^', '∧')
+    expr = expr.replace('v', '∨')
+    expr = expr.replace('@', '⊕')
+    expr = expr.replace('->', '→')
+    return expr
+
+def Encode2Human(expr: str) -> str:
+    expr = expr.replace('┐', '~')
+    expr = expr.replace('∧', '^')
+    expr = expr.replace('∨', 'v')
+    expr = expr.replace('⊕', '@')
+    expr = expr.replace('→', '->')
+    return expr
+
 def logic_eval(expr: str) -> bool:
+    expr = Encode2Human(expr)
     norm_pat = re.compile('(\s*)(.+)->(\s+)(.+)')
     spec_pat = re.compile('(\s*)(\(.+\))->(\s+)(.+)')
     spec_found = re.search(spec_pat, expr)
@@ -17,12 +34,18 @@ def logic_eval(expr: str) -> bool:
 def truthtable(vars: list):
     pass
 
-def dualformula(s: str) -> str:
+def dualformula(expr: str, encode: bool) -> str:
+    ret_s = Encode2Human(expr)
     ret_s = s.replace('v', '|')
     ret_s = ret_s.replace('^', 'v')
     ret_s = ret_s.replace('|', '^')
     ret_s = ret_s.replace('0', 'F')
     ret_s = ret_s.replace('1', '0')
     ret_s = ret_s.replace('F', '1')
+    if encode:
+        ret_s = Encode2DiscreteMath(ret_s)
     return ret_s
 
+expr = '(~1 @ 1) -> 0'
+print(Encode2DiscreteMath(expr))
+print(logic_eval(expr))
