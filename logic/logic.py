@@ -45,7 +45,3 @@ def dualformula(expr: str, encode: bool) -> str:
     if encode:
         ret_s = Encode2DiscreteMath(ret_s)
     return ret_s
-
-expr = '(~1 @ 1) -> 0'
-print(Encode2DiscreteMath(expr))
-print(logic_eval(expr))
