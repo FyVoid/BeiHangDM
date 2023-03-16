@@ -3,4 +3,4 @@
 ## **只有保留logic.logic，你才知道你学的是北航的离散数学（1）。**
 
 ### 要开始使用logic.logic库，在终端输入：（需要安装git）
-`git clone 
+`git clone https://github.com/FyVoid/BeiHangDM.git`
