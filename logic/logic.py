@@ -1,4 +1,6 @@
 import re
+import collections
+from collections import OrderedDict
 
 def Encode2DiscreteMath(expr: str) -> str:
     expr = expr.replace('~', '┐')
@@ -16,7 +18,9 @@ def Encode2Human(expr: str) -> str:
     expr = expr.replace('→', '->')
     return expr
 
-def logic_eval(expr: str) -> bool:
+def logic_eval(expr: str, vars={}) -> int:
+    for var, value in vars.items():
+        expr = expr.replace(var, value)
     expr = Encode2Human(expr)
     norm_pat = re.compile('(\s*)(.+)->(\s+)(.+)')
     spec_pat = re.compile('(\s*)(\(.+\))->(\s+)(.+)')
@@ -29,14 +33,36 @@ def logic_eval(expr: str) -> bool:
     expr = expr.replace('v', 'or')
     expr = expr.replace('^', 'and')
     expr = expr.replace('@', '^')
-    return eval(expr)
+    ret_value = eval(expr)
+    ret_value = int(ret_value)
+    return ret_value
 
-def truthtable(vars: list):
-    pass
+def _truthtable(vars: list, output_dict: OrderedDict, expr: str):
+    truth_value = ["1", "0"]
+    if len(vars) == 0:
+        for key, val in output_dict.items():
+            print(val, end=" ")
+        print(logic_eval(expr, output_dict))
+    else:
+        for truth in truth_value:
+            var = vars.pop(0)
+            output_dict[var] = truth
+            _truthtable(vars, output_dict, expr)
+            vars.insert(0, var)
+        #output_dict.pop(var)
+
+
+def truthtable(vars: list, expr: str):
+    output_dict = OrderedDict()
+    for var in vars:
+        print(var, end=" ")
+    print(expr)
+    _truthtable(vars, output_dict, expr)
+
 
 def dualformula(expr: str, encode: bool) -> str:
     ret_s = Encode2Human(expr)
-    ret_s = s.replace('v', '|')
+    ret_s = ret_s.replace('v', '|')
     ret_s = ret_s.replace('^', 'v')
     ret_s = ret_s.replace('|', '^')
     ret_s = ret_s.replace('0', 'F')
