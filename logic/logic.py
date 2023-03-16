@@ -37,7 +37,7 @@ def logic_eval(expr: str, vars={}) -> int:
     ret_value = int(ret_value)
     return ret_value
 
-def _truthtable(vars: list, output_dict: OrderedDict, expr: str):
+def _ttrec(vars: list, output_dict: OrderedDict, expr: str):
     truth_value = ["1", "0"]
     if len(vars) == 0:
         indent = ' ' * (len(expr) // 2)
@@ -49,17 +49,18 @@ def _truthtable(vars: list, output_dict: OrderedDict, expr: str):
         for truth in truth_value:
             var = vars.pop(0)
             output_dict[var] = truth
-            _truthtable(vars, output_dict, expr)
+            _ttrec(vars, output_dict, expr)
             vars.insert(0, var)
-        #output_dict.pop(var)
 
 
 def truthtable(vars: list, expr: str):
     output_dict = OrderedDict()
+    expr = Encode2DiscreteMath(expr)
     for var in vars:
         print(var, end=" ")
     print(expr)
-    _truthtable(vars, output_dict, expr)
+    expr = Encode2Human(expr)
+    _ttrec(vars, output_dict, expr)
 
 
 def dualformula(expr: str, encode: bool) -> str:
