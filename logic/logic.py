@@ -40,8 +40,10 @@ def logic_eval(expr: str, vars={}) -> int:
 def _truthtable(vars: list, output_dict: OrderedDict, expr: str):
     truth_value = ["1", "0"]
     if len(vars) == 0:
+        indent = ' ' * (len(expr) // 2)
         for key, val in output_dict.items():
             print(val, end=" ")
+        print(indent, end="")
         print(logic_eval(expr, output_dict))
     else:
         for truth in truth_value:
