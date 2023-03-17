@@ -22,13 +22,15 @@ def logic_eval(expr: str, vars={}) -> int:
     for var, value in vars.items():
         expr = expr.replace(var, value)
     expr = Encode2Human(expr)
-    norm_pat = re.compile('(\s*)(.+)->(\s+)(.+)')
-    spec_pat = re.compile('(\s*)(\(.+\))->(\s+)(.+)')
+    norm_pat = re.compile('(.*)([10]\s*)->(.+)')
+    spec_pat = re.compile('(.*)(\(.+\)\s*)->(.+)')
     spec_found = re.search(spec_pat, expr)
-    if spec_found:
-        expr = re.sub(spec_pat, r'\1~\2v\3\4', expr)
-    else:
-        expr = re.sub(norm_pat, r'\1~\2v\3\4', expr)
+    while re.search(norm_pat, expr) or spec_found:
+        if spec_found:
+            expr = re.sub(spec_pat, r'\1~\2v\3', expr)
+        else:
+            expr = re.sub(norm_pat, r'\1~\2v\3', expr)
+        spec_found = re.search(spec_pat, expr)
     expr = expr.replace('~', 'not ')
     expr = expr.replace('v', 'or')
     expr = expr.replace('^', 'and')
