@@ -23,7 +23,7 @@ def logic_eval(expr: str, vars={}) -> int:
         expr = expr.replace(var, value)
     expr = Encode2Human(expr)
     norm_pat = re.compile('(.*)([10]\s*)->(.+)')
-    spec_pat = re.compile('(.*)(\(.+\)\s*)->(.+)')
+    spec_pat = re.compile('(\s*)(\(.+\)\s*)->(.+)')
     spec_found = re.search(spec_pat, expr)
     while re.search(norm_pat, expr) or spec_found:
         if spec_found:
@@ -64,8 +64,58 @@ def truthtable(vars: list, expr: str):
     expr = Encode2Human(expr)
     _ttrec(vars, output_dict, expr)
 
+def _iarec(vars: list, pre: list, output_dict: OrderedDict, expr: str, final: str):
+    truth_value = ["1", "0"]
+    if len(vars) == 0:
+        for key, val in output_dict.items():
+            print(val, end=" ")
+        val_conditions = 1
+        for condition in pre:
+            val_condition = logic_eval(condition, output_dict)
+            if(val_condition == 0):
+                val_conditions = 0
+            indent = ' ' * (len(condition) // 2)
+            print(indent, end='')
+            print(val_condition, end='   ')
+        val_expr = logic_eval(expr, output_dict)
+        indent = ' ' * (len(expr) // 2 + 1)
+        print(indent, end="")
+        print(val_expr, end=' ')
+        indent = ' ' * (len(final) // 2 + 1)
+        print(indent, end='')
+        if (val_conditions == 0) and (val_expr == 1):
+            print("0")
+        else:
+            print('1')
+    else:
+        for truth in truth_value:
+            var = vars.pop(0)
+            output_dict[var] = truth
+            _iarec(vars, pre, output_dict, expr, final)
+            vars.insert(0, var)
+def isargument(vars: list, pre: list, expr: str):
+    output_dict = OrderedDict()
+    for expression in pre:
+        expression = Encode2DiscreteMath(expression)
+    expr = Encode2DiscreteMath(expr)
+    final = ''
+    for var in vars:
+        print(var, end=' ')
+    for i in range(len(pre)):
+        print(pre[i], end=' ')
+        final = final + pre[i]
+        if i != len(pre) - 1:
+            final = final + ', '
+    print(expr, end=' ')
+    final = final + ' ╞ ' + expr
+    print(final)
+    for expression in pre:
+        expression = Encode2Human(expression)
+    expr = Encode2Human(expr)
+    _iarec(vars, pre, output_dict, expr, final)
 
-def dualformula(expr: str, encode: bool) -> str:
+
+def dualformula(expr: str, encode: bool = False) -> str:
     ret_s = Encode2Human(expr)
     ret_s = ret_s.replace('v', '|')
     ret_s = ret_s.replace('^', 'v')
