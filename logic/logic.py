@@ -10,6 +10,7 @@ def Encode2DiscreteMath(expr: str) -> str:
     expr = expr.replace('->', '→')
     return expr
 
+
 def Encode2Human(expr: str) -> str:
     expr = expr.replace('┐', '~')
     expr = expr.replace('∧', '^')
@@ -17,6 +18,7 @@ def Encode2Human(expr: str) -> str:
     expr = expr.replace('⊕', '@')
     expr = expr.replace('→', '->')
     return expr
+
 
 def logic_eval(expr: str, vars={}) -> int:
     for var, value in vars.items():
@@ -39,6 +41,7 @@ def logic_eval(expr: str, vars={}) -> int:
     ret_value = int(ret_value)
     return ret_value
 
+
 def _ttrec(vars: list, output_dict: OrderedDict, expr: str):
     truth_value = ["1", "0"]
     if len(vars) == 0:
@@ -53,8 +56,6 @@ def _ttrec(vars: list, output_dict: OrderedDict, expr: str):
             output_dict[var] = truth
             _ttrec(vars, output_dict, expr)
             vars.insert(0, var)
-
-
 def truthtable(vars: list, expr: str):
     output_dict = OrderedDict()
     expr = Encode2DiscreteMath(expr)
@@ -63,6 +64,7 @@ def truthtable(vars: list, expr: str):
     print(expr)
     expr = Encode2Human(expr)
     _ttrec(vars, output_dict, expr)
+
 
 def _iarec(vars: list, pre: list, output_dict: OrderedDict, expr: str, final: str):
     truth_value = ["1", "0"]
@@ -113,6 +115,7 @@ def isargument(vars: list, pre: list, expr: str):
         expression = Encode2Human(expression)
     expr = Encode2Human(expr)
     _iarec(vars, pre, output_dict, expr, final)
+
 
 def _ierec(vars: list, pre: list, output_dict: OrderedDict, expr: str, final: str):
     truth_value = ["1", "0"]
