@@ -5,7 +5,7 @@
 ### 要开始使用logic.logic库，在终端输入：（需要安装git）  
 `git clone https://github.com/FyVoid/BeiHangDM.git`  
   
-将BeiHangDM文件夹中的logic**文件夹**放入你的python项目，然后输入mdf的神秘魔咒:  
+将BeiHangDM文件夹中的logic**文件夹**放入你的python项目，然后输入**mdf的神秘魔咒**:  
   
 `import logic.logic as ll`
 
