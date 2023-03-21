@@ -146,7 +146,7 @@ def _ierec(vars: list, pre: list, output_dict: OrderedDict, expr: str, final: st
             output_dict[var] = truth
             _ierec(vars, pre, output_dict, expr, final)
             vars.insert(0, var)
-def isequilent(vars: list, pre: list, expr: str):
+def isequation(vars: list, pre: list, expr: str):
     output_dict = OrderedDict()
     for expression in pre:
         expression = Encode2DiscreteMath(expression)
@@ -160,7 +160,7 @@ def isequilent(vars: list, pre: list, expr: str):
         if i != len(pre) - 1:
             final = final + ', '
     print(expr, end=' ')
-    final = final + ' ╞ ' + expr
+    final = final + ' ⇔ ' + expr
     print(final)
     for expression in pre:
         expression = Encode2Human(expression)
