@@ -56,9 +56,10 @@ logic.logic采用两套编码方式：离散数学编码和人类编码
 ### Encode2DiscreteMath(expr):  
 函数接收一个表达式，返回表达式的离散数学编码形式  
 **用例：**
-将表达式`expr = 'A ^ B -> C'`转换为离散数学编码格式：  
-`expr = ll.Encode2DiscreteMath(expr)`
-`print(expr)`
+将表达式  
+`expr = 'A ^ B -> C'`转换为离散数学编码格式：  
+`expr = ll.Encode2DiscreteMath(expr)`  
+`print(expr)`  
 输出：  
 A ∧ B → C
 
@@ -67,36 +68,36 @@ A ∧ B → C
 使用方法与Encode2DiscreteMath()相同
 
 ### logic_eval(expr, vars):
-函数接收一个**任意编码**的表达式expr和声明表达式中每个变量的值的字典vars，返回表达式的值
-**用例：**
+函数接收一个**任意编码**的表达式expr和声明表达式中每个变量的值的字典vars，返回表达式的值  
+**用例：**  
 计算表达式`expr = 'A ^ B -> C'`在 A = 1, B = 0, C = 1的情况下的值：  
-你需要创建一个**字典**表明每个变量的值：`value_dict = {'A': '1', 'B': '0', 'C': '1'}`
-然后call **logic_eval()**函数：
-`print(ll.logic_eval(expr, value_dict))`
-或是直接将字典传入函数：
-`print(ll.logic_eval(expr, {'A': '1', 'B': '0', 'C': '1'}))`
-输出：
-1
-**注意：字典中每个键的值（即变量的真值）需要用字符串表示，否则会产生TypeError**
+你需要创建一个**字典**表明每个变量的值：`value_dict = {'A': '1', 'B': '0', 'C': '1'}`  
+然后call **logic_eval()**函数：  
+`print(ll.logic_eval(expr, value_dict))`  
+或是直接将字典传入函数：  
+`print(ll.logic_eval(expr, {'A': '1', 'B': '0', 'C': '1'}))`  
+输出：  
+1  
+**注意：字典中每个键的值（即变量的真值）需要用字符串表示，否则会产生TypeError**  
 
 ### truthtable(vars, expr):
 函数接收一个声明表达式中所有变量变量名的列表vars和表达式expr，输出该表达式的真值表  
-函数的内部实现是递归的，和教科书的方法不同，可以输出任意数量变量的真值表
-**用例：**
-输出表达式`expr = 'A ^ B -> C'`的真值表：
-你需要通过一个**列表**告诉函数表达式中有哪些变量：`vars = ['A', 'B', 'C']`
-然后call truthtable():`ll.truthtable(vars, expr)`
-当然，你也可以直接将列表传入函数：`ll.truthtable(['A', 'B', 'C'], expr)`
-输出：
-A B C A ∧ B → C
-1 1 1      1
-1 1 0      0
-1 0 1      1
-1 0 0      1
-0 1 1      1
-0 1 0      0
-0 0 1      1
-0 0 0      0
+函数的内部实现是递归的，和教科书的方法不同，可以输出任意数量变量的真值表  
+**用例：**  
+输出表达式`expr = 'A ^ B -> C'`的真值表：  
+你需要通过一个**列表**告诉函数表达式中有哪些变量：`vars = ['A', 'B', 'C']`  
+然后call truthtable():`ll.truthtable(vars, expr)`  
+当然，你也可以直接将列表传入函数：`ll.truthtable(['A', 'B', 'C'], expr)`  
+输出：  
+A B C A ∧ B → C  
+1 1 1      1  
+1 1 0      0  
+1 0 1      1  
+1 0 0      1  
+0 1 1      1  
+0 1 0      0  
+0 0 1      1  
+0 0 0      0  
 
 ### isargument(vars, pre, expr):
 函数接收一个声明表达式中所有变量变量名的列表vars，前提条件表达式列表pre和结论表达式expr，输出该前提下是否能推出结论的真值表，例如：  
