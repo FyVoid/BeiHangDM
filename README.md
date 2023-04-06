@@ -7,34 +7,34 @@
   
 将BeiHangDM文件夹中的**logic文件夹**复制入你的python项目，然后输入**mdf的神秘魔咒**:  
   
-`import logic.logic as ll`
+  `import logic.logic as ll`
 
 **使用logic.logic需要掌握基本的python语法**  
 ### 库仍然在编写过程中，如果要获取最新版本的logic.logic，在终端中进入BeiHangDM目录下，输入  
-`git pull https://github.com/FyVoid/BeiHangDM.git`
+  `git pull https://github.com/FyVoid/BeiHangDM.git`
 
 当然，作为大一的萌新，你也可以重新clone一个库的副本  
 ### 如何使用： 
 以字符串的形式输入一个简单的逻辑表达式：  
-`s = 'A ∧ (B → C)'`  
+  `s = 'A ∧ (B → C)'`  
 或是使用**人类编码**  
-`s = 'A ^ (B -> C)'`  
+  `s = 'A ^ (B -> C)'`  
 call **ll.logic_eval()** 函数，第一个变量为表达式字符串，第二个变量为代表表达式中每个变量真值的字典（真值用字符串形式表示）：  
-`print(ll.logic_eval(s, {'A': '1', 'B': '0', 'C': '1'}))`  
+  `print(ll.logic_eval(s, {'A': '1', 'B': '0', 'C': '1'}))`  
 得到如下输出：  
-`1`  
+  `1`  
 如果要输出真值表，你可以call **ll.truthtable()** 函数，第一个变量为一个列表，声明表达式中出现的所有变量名，第二个变量为表达式：  
-`ll.truthtable(['A', 'B', 'C'], s)`  
+  `ll.truthtable(['A', 'B', 'C'], s)`  
 输出为：  
-A B C A ∧ (B → C)  
-1 1 1       1  
-1 1 0       0  
-1 0 1       1  
-1 0 0       1  
-0 1 1       0  
-0 1 0       0  
-0 0 1       0  
-0 0 0       0  
+  A B C A ∧ (B → C)  
+  1 1 1       1  
+  1 1 0       0  
+  1 0 1       1  
+  1 0 0       1  
+  0 1 1       0  
+  0 1 0       0  
+  0 0 1       0  
+  0 0 0       0  
 详细的使用方法见后：[**文档**](#文档)
 
 ## 编码
@@ -58,8 +58,8 @@ logic.logic采用两套编码方式：离散数学编码和人类编码
 **用例：**
 将表达式  
 `expr = 'A ^ B -> C'`转换为离散数学编码格式：  
-`expr = ll.Encode2DiscreteMath(expr)`  
-`print(expr)`  
+    `expr = ll.Encode2DiscreteMath(expr)`  
+    `print(expr)`  
 输出：  
 A ∧ B → C
 
@@ -73,11 +73,11 @@ A ∧ B → C
 计算表达式`expr = 'A ^ B -> C'`在 A = 1, B = 0, C = 1的情况下的值：  
 你需要创建一个**字典**表明每个变量的值：`value_dict = {'A': '1', 'B': '0', 'C': '1'}`  
 然后call **logic_eval()**函数：  
-`print(ll.logic_eval(expr, value_dict))`  
+  `print(ll.logic_eval(expr, value_dict))`  
 或是直接将字典传入函数：  
-`print(ll.logic_eval(expr, {'A': '1', 'B': '0', 'C': '1'}))`  
+  `print(ll.logic_eval(expr, {'A': '1', 'B': '0', 'C': '1'}))`  
 输出：  
-1  
+  1  
 **注意：字典中每个键的值（即变量的真值）需要用字符串表示，否则会产生TypeError**  
 
 ### truthtable(vars, expr):
@@ -89,23 +89,23 @@ A ∧ B → C
 然后call truthtable():`ll.truthtable(vars, expr)`  
 当然，你也可以直接将列表传入函数：`ll.truthtable(['A', 'B', 'C'], expr)`  
 输出：  
-A B C A ∧ B → C  
-1 1 1      1  
-1 1 0      0  
-1 0 1      1  
-1 0 0      1  
-0 1 1      1  
-0 1 0      0  
-0 0 1      1  
-0 0 0      0  
+  A B C A ∧ B → C  
+  1 1 1      1  
+  1 1 0      0  
+  1 0 1      1  
+  1 0 0      1  
+  0 1 1      1  
+  0 1 0      0  
+  0 0 1      1  
+  0 0 0      0  
 
 ### isargument(vars, pre, expr):
 函数接收一个声明表达式中所有变量变量名的列表vars，前提条件表达式列表pre和结论表达式expr，输出该前提下是否能推出结论的真值表，例如：  
 要通过真值表判定P，Q -> (P -> R) ╞ Q → R是否成立，使用以下代码：  
-`import logic.logic as ll`  
-`pre = ['P', 'Q -> (P -> R)']`  
-`expr = 'Q -> R'`  
-`ll.isargument(['P', 'Q', 'R'], pre, expr)`  
+  `import logic.logic as ll`  
+  `pre = ['P', 'Q -> (P -> R)']`  
+  `expr = 'Q -> R'`  
+  `ll.isargument(['P', 'Q', 'R'], pre, expr)`  
 运行后，控制台会输出该推论在变量P，Q，R取不同值时的真值表  
 **注意，与教科书的实现不同，输出中包含了整个推论在变量取不同真值时的真值，因此比教科书多一列**  
 同样，函数内部实现是递归的，可以输出任意数量变量，前提的推论式真值表
