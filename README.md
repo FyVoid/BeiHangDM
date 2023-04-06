@@ -102,10 +102,10 @@ A ∧ B → C
 ### isargument(vars, pre, expr):
 函数接收一个声明表达式中所有变量变量名的列表vars，前提条件表达式列表pre和结论表达式expr，输出该前提下是否能推出结论的真值表，例如：  
 要通过真值表判定P，Q -> (P -> R) ╞ Q → R是否成立，使用以下代码：  
-  `import logic.logic as ll`  
-  `pre = ['P', 'Q -> (P -> R)']`  
-  `expr = 'Q -> R'`  
-  `ll.isargument(['P', 'Q', 'R'], pre, expr)`  
+   `import logic.logic as ll`  
+   `pre = ['P', 'Q -> (P -> R)']`  
+   `expr = 'Q -> R'`  
+   `ll.isargument(['P', 'Q', 'R'], pre, expr)`  
 运行后，控制台会输出该推论在变量P，Q，R取不同值时的真值表  
 **注意，与教科书的实现不同，输出中包含了整个推论在变量取不同真值时的真值，因此比教科书多一列**  
 同样，函数内部实现是递归的，可以输出任意数量变量，前提的推论式真值表
