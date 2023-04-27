@@ -179,3 +179,63 @@ def dualformula(expr: str, encode: bool = False) -> str:
     if encode:
         ret_s = Encode2DiscreteMath(ret_s)
     return ret_s
+
+def _strec(vars: list, output_dict: OrderedDict, parent: str, sub: str):
+    truth_value = ['1', '0']
+    if len(vars) == 0:
+        indent = ' ' * (len(parent) // 2)
+        for key, val in output_dict.items():
+            print(val, end=' ')
+        print(indent, end=" ")
+        pval = logic_eval(parent, output_dict)
+        sval = logic_eval(sub, output_dict)
+        print(pval, end=" ")
+        indent = ' ' * ((len(sub) // 2) + 4)
+        print(indent, end=" ")
+        print(sval, end=" ")
+        indent = ' ' * ((len("equality") // 2) + 4)
+        print(indent, end=" ")
+        print(int(pval == sval))
+    else:
+        for truth in truth_value:
+            var = vars.pop(0)
+            output_dict[var] = truth
+            _strec(vars, output_dict, parent, sub)
+            vars.insert(0, var)
+
+def substitution(parent: str, sub: str, vars: list, expr: str):
+    output_dict = OrderedDict()
+    expr = Encode2DiscreteMath(expr)
+    parent = Encode2DiscreteMath(parent)
+    sub = Encode2DiscreteMath(sub)
+    for var in vars:
+        print(var, end=" ")
+    print(expr, end=' ')
+    print(expr.replace(parent, sub), end=' ')
+    print("equality")
+    sub = expr.replace(parent, sub)
+    parent = expr
+    _strec(vars, output_dict, parent, sub)
+
+def _ievrec(vars: list, val_dict: OrderedDict, ret: list, expr1: str, expr2: str) -> bool:
+    truth_value = ['1', '0']
+    if ret[0]:
+        if len(vars) == 0:
+            val1 = logic_eval(expr1, val_dict)
+            val2 = logic_eval(expr2, val_dict)
+            if val1 != val2:
+                ret[0] = False
+        else:
+            for truth in truth_value:
+                var = vars.pop(0)
+                val_dict[var] = truth
+                _ievrec(vars, val_dict, ret, expr1, expr2)
+                vars.insert(0, var)
+
+def is_equation(vars: list, expr1: str, expr2: str) -> bool:
+    val_dict = OrderedDict()
+    ret = [True]
+    _ievrec(vars, val_dict, ret, expr1, expr2)
+    if ret[0]:
+        return True
+    return False
