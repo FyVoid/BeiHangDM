@@ -112,3 +112,29 @@ A ∧ B → C
 
 ### isequation(vars, pre, expr):
 函数的接口和isargument()相同，区别只在于判断前提和结论是否构成等价关系
+
+### substitusion(parent, sub, vars, expr):
+函数接收原变元/表达式parent和其替换式sub，表达式中所有变元变量名的列表vars，以及整个表达式expr，输出表达式expr在不替换parent和替换parent的情况下的真值表，以及两者是否相等  
+**用例：**  
+输出表达式`Q -> (R -> R)`将`R -> R`替换为`R -> (Q -> R)`后，两个表达式是否相等的真值表：  
+`parent = '(R -> R)'`  
+`sub = '(R -> (Q -> R))'`  
+`expr = 'Q -> (R -> R)'`  
+`ll.substitution(parent, sub, ['R', 'Q'], expr)`  
+输出：  
+R Q Q → (R → R) Q → (R → (Q → R)) equality  
+1 1       1              1          1  
+1 0       1              1          1  
+0 1       1              1          1  
+0 0       1              1          1  
+
+### is_equation(vars, expr1, expr2):  
+**该函数来源于课后题目**  
+函数接收表明所有变量变量名的列表vars，表达式1 expr1， 表达式2 expr2，返回一个bool类型的值表示expr1和expr2是否等价  
+**用例：**  
+`expr1 = 'P -> (Q v R)`  
+`expr2 = '((Q v R) -> P)`  
+`result = ll.is_equation(['P', 'Q', 'R'], expr1, expr2)`  
+`print(result)`  
+输出：  
+False
