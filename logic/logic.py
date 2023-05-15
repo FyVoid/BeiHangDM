@@ -7,6 +7,7 @@ def Encode2DiscreteMath(expr: str) -> str:
     expr = expr.replace('^', '∧')
     expr = expr.replace('v', '∨')
     expr = expr.replace('@', '⊕')
+    expr = expr.replace('<->', '⇔')
     expr = expr.replace('->', '→')
     return expr
 
@@ -16,6 +17,7 @@ def Encode2Human(expr: str) -> str:
     expr = expr.replace('∧', '^')
     expr = expr.replace('∨', 'v')
     expr = expr.replace('⊕', '@')
+    expr = expr.replace('⇔', '<->')
     expr = expr.replace('→', '->')
     return expr
 
@@ -24,6 +26,17 @@ def logic_eval(expr: str, vars={}) -> int:
     for var, value in vars.items():
         expr = expr.replace(var, value)
     expr = Encode2Human(expr)
+    norm_pat = re.compile('(.*)([10]\s*)<->(.+)')
+    spec_pat = re.compile('(\s*)(\(.+\)\s*)<->(.+)')
+    spec_found = re.search(spec_pat, expr)
+    while re.search(norm_pat, expr) or spec_found:
+        if spec_found:
+            expr = re.sub(spec_pat, r'\1 (\2 -> \3) ^ (\3 -> \2)', expr)
+        else:
+            expr = re.sub(norm_pat, r'\1 (\2 -> \3) ^ (\3 -> \2)', expr)
+        spec_found = re.search(spec_pat, expr)
+    print(expr)
+
     norm_pat = re.compile('(.*)([10]\s*)->(.+)')
     spec_pat = re.compile('(\s*)(\(.+\)\s*)->(.+)')
     spec_found = re.search(spec_pat, expr)
@@ -239,3 +252,6 @@ def is_equation(vars: list, expr1: str, expr2: str) -> bool:
     if ret[0]:
         return True
     return False
+
+def gen_expr(m: int, n: int) -> str:
+    op = ['', 'v', '@', '']

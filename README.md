@@ -48,6 +48,8 @@ logic.logic采用两套编码方式：离散数学编码和人类编码
 |∨         |v(字母v)|  
 |⊕         |@      |  
 |→         |->     |  
+|⇔         |<->     |  
+
 
 你可以通过**ll.Encode2DiscreteMath()** 和 **ll.Encode2Human()** 函数在两种编码之间转换
 
