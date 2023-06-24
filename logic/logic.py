@@ -58,7 +58,9 @@ def truthtable(vars: list, expr: str):
     output_dict = OrderedDict()
     for var in vars:
         print(var, end=" ")
+    expr = Encode2DiscreteMath(expr)
     print(expr)
+    expr = Encode2Human(expr)
     _truthtable(vars, output_dict, expr)
 
 
