@@ -21,13 +21,6 @@ git clone https://github.com/FyVoid/BeiHangDM.git
 import logic.logic as ll
 ```
 
-**使用logic.logic需要掌握基本的python语法**  
-### 库仍然在编写过程中，如果要获取最新版本的logic.logic，在终端中进入BeiHangDM目录下，输入  
-```
-git pull https://github.com/FyVoid/BeiHangDM.git
-```
-
-当然，作为大一的萌新，你也可以重新clone一个库的副本  
 ### 如何使用： 
 以字符串的形式输入一个简单的逻辑表达式：  
 
